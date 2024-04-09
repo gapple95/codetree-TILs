@@ -125,8 +125,8 @@ public class Main {
 				for (int j = c + w - 1; j >= c; j--) {
 					// 기사 이동
 					// 아래로 밀기
-					knightTmp[i - 1][j] = knightMap[i][j];
-					if (map[i - 1][j] == 1)
+					knightTmp[i + 1][j] = knightMap[i][j];
+					if (map[i + 1][j] == 1)
 						k--;
 				}
 			}
@@ -150,7 +150,6 @@ public class Main {
 				else if (knightMap[nr][i] != 0)
 					flag = knights[knightMap[nr][i]].Up();
 			}
-			r = r - 1;
 			return flag;
 		}
 
@@ -160,11 +159,12 @@ public class Main {
 				for (int j = c; j < c + w; j++) {
 					// 기사 이동
 					// 위로 밀기
-					knightTmp[i + 1][j] = knightMap[i][j];
-					if (map[i + 1][j] == 1)
+					knightTmp[i - 1][j] = knightMap[i][j];
+					if (map[i - 1][j] == 1)
 						k--;
 				}
 			}
+			r = r - 1;
 			return k <= 0 ? true : false;
 		}
 
@@ -234,6 +234,11 @@ public class Main {
 			k = Integer.parseInt(st.nextToken());
 			knights[i] = new Knight(i, r, c, h, w, k);
 		}
+		
+//		System.out.println("맵");
+//		printMap(map);
+//		System.out.println("기사");
+//		printMap(knightMap);
 
 		int knight;
 		int d;
