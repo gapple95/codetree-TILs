@@ -27,24 +27,26 @@ public class Main {
 			}
 		}
 
-		public boolean Right() {
+		public void Right() {
 			int nc = c + w;
 
 			move[idx] = true;
 
 			// 범위 밖
-			if (nc > L)
-				return false;
+			if (nc > L) {
+				check = false;
+				return;
+			}
 
 			boolean flag = true;
 			for (int i = r; i < r + h; i++) {
-				if (map[i][nc] == 2)
-					return false;
+				if (map[i][nc] == 2) {
+					check = false;
+					return ;
+				}
 				else if (knightMap[i][nc] != 0)
-					flag = knights[knightMap[i][nc]].Right();
+					knights[knightMap[i][nc]].Right();
 			}
-
-			return flag;
 		}
 
 		public boolean moveRight() {
@@ -62,24 +64,26 @@ public class Main {
 			return k <= 0 ? true : false;
 		}
 
-		public boolean Left() {
+		public void Left() {
 			int nc = c - 1;
 
 			move[idx] = true;
 
 			// 범위 밖
-			if (nc <= 0)
-				return false;
-
-			boolean flag = true;
-			for (int i = r; i < r + h; i++) {
-				if (map[i][nc] == 2)
-					return false;
-				else if (knightMap[i][nc] != 0)
-					flag = knights[knightMap[i][nc]].Left();
+			if (nc <= 0) {
+				check = false;
+				return;
 			}
-
-			return flag;
+			
+			for (int i = r; i < r + h; i++) {
+				if (map[i][nc] == 2) {
+					check = false;
+					return;
+				}
+				else if (knightMap[i][nc] != 0) {
+					knights[knightMap[i][nc]].Left();
+				}
+			}
 		}
 
 		public boolean moveLeft() {
@@ -98,24 +102,26 @@ public class Main {
 			return k <= 0 ? true : false;
 		}
 
-		public boolean Down() {
+		public void Down() {
 			int nr = r + h;
 
 			move[idx] = true;
 
 			// 범위 밖
-			if (nr > L)
-				return false;
+			if (nr > L) {
+				check = false;
+				return;
+			}
 
 			boolean flag = true;
 			for (int i = c; i < c + w; i++) {
-				if (map[nr][i] == 2)
-					return false;
+				if (map[nr][i] == 2) {
+					check = false;
+					return;
+				}
 				else if (knightMap[nr][i] != 0)
-					flag = knights[knightMap[nr][i]].Down();
+					knights[knightMap[nr][i]].Down();
 			}
-
-			return flag;
 		}
 
 		public boolean moveDown() {
@@ -134,23 +140,26 @@ public class Main {
 			return k <= 0 ? true : false;
 		}
 
-		public boolean Up() {
+		public void Up() {
 			int nr = r - 1;
 
 			move[idx] = true;
 
 			// 범위 밖
-			if (nr <= 0)
-				return false;
+			if (nr <= 0) {
+				check = false;
+				return;
+			}
 
 			boolean flag = true;
 			for (int i = c; i < c + w; i++) {
-				if (map[nr][i] == 2)
-					return false;
+				if (map[nr][i] == 2) {
+					check = false;
+					return;
+				}
 				else if (knightMap[nr][i] != 0)
-					flag = knights[knightMap[nr][i]].Up();
+					knights[knightMap[nr][i]].Up();
 			}
-			return flag;
 		}
 
 		public boolean moveUp() {
@@ -191,7 +200,7 @@ public class Main {
 	static int L, N, Q;
 	static Knight[] knights;
 	static boolean[] move, init;
-	static boolean first;
+	static boolean check;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -235,7 +244,10 @@ public class Main {
 			knights[i] = new Knight(i, r, c, h, w, k);
 		}
 
-	
+//		System.out.println("맵");
+//		printMap(map);
+//		System.out.println("기사");
+//		printMap(knightMap);
 
 		int knight;
 		int d;
@@ -248,9 +260,12 @@ public class Main {
 			if(knights[knight].k == 0)
 				continue;
 
+			check = true;
+			
 			switch (d) {
 			case 0: {
-				if (knights[knight].Up()) {
+				knights[knight].Up();
+				if (check) {
 					hp = knights[knight].k;
 					for (int j = 1; j <= N; j++) {
 						if (!move[j])
@@ -268,7 +283,8 @@ public class Main {
 				break;
 			}
 			case 1: {
-				if (knights[knight].Right()) {
+				knights[knight].Right();
+				if (check) {
 					hp = knights[knight].k;
 					for (int j = 1; j <= N; j++) {
 						if (!move[j])
@@ -288,7 +304,8 @@ public class Main {
 				break;
 			}
 			case 2: {
-				if (knights[knight].Down()) {
+				knights[knight].Down();
+				if (check) {
 					hp = knights[knight].k;
 					for (int j = 1; j <= N; j++) {
 						if (!move[j])
@@ -308,7 +325,8 @@ public class Main {
 				break;
 			}
 			case 3: {
-				if (knights[knight].Left()) {
+				knights[knight].Left();
+				if (check) {
 					hp = knights[knight].k;
 					for (int j = 1; j <= N; j++) {
 						if (!move[j])
@@ -338,7 +356,16 @@ public class Main {
 			copyMap();
 			System.arraycopy(init, 0, move, 0, N + 1);
 
-
+//			System.out.println(knight + ", " + d);
+//			System.out.println("맵");
+//			printMap(map);
+//			System.out.println("기사");
+//			printMap(knightMap);
+//			System.out.println("기사 피");
+//			for (int j = 1; j <= N; j++) {
+//				System.out.print(j + " : (" + knights[j].k + "/" + knights[j].hp +") , ");
+//			}
+//			System.out.println();
 
 			initMap();
 		}
@@ -356,8 +383,8 @@ public class Main {
 
 	static void printMap(int map[][]) {
 //		System.out.println();
-		for (int i = 1; i <= L; i++) {
-			for (int j = 1; j <= L; j++) {
+		for (int i = 0; i <= L + 1; i++) {
+			for (int j = 0; j <= L + 1; j++) {
 				System.out.print(map[i][j] + "\t");
 			}
 			System.out.println();
@@ -366,13 +393,13 @@ public class Main {
 	}
 
 	static void copyMap() {
-		for (int i = 1; i <= L; i++) {
+		for (int i = 0; i <= L + 1; i++) {
 			System.arraycopy(knightTmp[i], 0, knightMap[i], 0, L + 2);
 		}
 	}
 
 	static void initMap() {
-		for (int i = 1; i <= L; i++) {
+		for (int i = 0; i <= L + 1; i++) {
 			System.arraycopy(initMap[i], 0, knightTmp[i], 0, L + 2);
 		}
 	}
