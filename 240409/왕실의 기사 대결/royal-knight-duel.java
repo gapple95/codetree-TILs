@@ -234,11 +234,8 @@ public class Main {
 			k = Integer.parseInt(st.nextToken());
 			knights[i] = new Knight(i, r, c, h, w, k);
 		}
-		
-//		System.out.println("맵");
-//		printMap(map);
-//		System.out.println("기사");
-//		printMap(knightMap);
+
+	
 
 		int knight;
 		int d;
@@ -247,6 +244,9 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			knight = Integer.parseInt(st.nextToken());
 			d = Integer.parseInt(st.nextToken());
+			
+			if(knights[knight].k == 0)
+				continue;
 
 			switch (d) {
 			case 0: {
@@ -324,7 +324,7 @@ public class Main {
 							knights[j].stay();
 					}
 				}
-				
+
 				break;
 			}
 			}
@@ -338,21 +338,17 @@ public class Main {
 			copyMap();
 			System.arraycopy(init, 0, move, 0, N + 1);
 
-//			System.out.println(knight + ", " + d);
-//			System.out.println("맵");
-//			printMap(map);
-//			System.out.println("기사");
-//			printMap(knightMap);
-			
+
+
 			initMap();
 		}
-		
+
 		int sum = 0;
-		for (int i = 1; i <=N; i++) {
-			if(knights[i].k > 0)
+		for (int i = 1; i <= N; i++) {
+			if (knights[i].k > 0)
 				sum += knights[i].hp - knights[i].k;
 		}
-		
+
 		sb.append(sum);
 		System.out.println(sb);
 
@@ -360,9 +356,9 @@ public class Main {
 
 	static void printMap(int map[][]) {
 //		System.out.println();
-		for (int i = 0; i < L + 2; i++) {
-			for (int j = 0; j < L + 2; j++) {
-				System.out.print(map[i][j] + " ");
+		for (int i = 1; i <= L; i++) {
+			for (int j = 1; j <= L; j++) {
+				System.out.print(map[i][j] + "\t");
 			}
 			System.out.println();
 		}
