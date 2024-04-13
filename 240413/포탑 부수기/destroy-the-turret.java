@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
@@ -36,6 +37,7 @@ public class Main {
 			// 공격자 visited
 			visited[r][c] = true;
 			if (bfs(target)) {
+//				System.out.println("레이저");
 				// 레이저 공격
 				// path배열의 역순으로 처리
 				int attackIdx = path[target.idx];
@@ -45,6 +47,7 @@ public class Main {
 					attackIdx = path[attackIdx];
 				}
 			} else {
+//				System.out.println("포탄");
 				// 포탄 공격
 				for (int d = 0; d < 8; d++) {
 					int nr = target.r + dy[d];
@@ -159,9 +162,12 @@ public class Main {
 			this.past += past;
 		}
 
+		
+
 		@Override
 		public String toString() {
-			return "Cannon [idx=" + idx + ", r=" + r + ", c=" + c + ", atk=" + atk + "]";
+			return "Cannon [idx=" + idx + ", r=" + r + ", c=" + c + ", atk=" + atk + ", past=" + past + ", alive="
+					+ alive + "]";
 		}
 
 		@Override
@@ -244,12 +250,20 @@ public class Main {
 		}
 
 		for (int k = 0; k < K; k++) {
+			if(idx-1==1)
+				break;
 
 //			System.out.println(k + "분 공격 전");
 //			printIdxMap();
 //			printMap();
 			
 			Collections.sort(cannonSort);
+			
+//			System.out.println("정렬 리스트");
+//			for(Cannon c: cannonSort) {
+//				System.out.println(c);
+//			}
+			
 			// 1. 공격자 선정
 			Cannon weakCannon = cannonSort.get(0);
 			// 선정된 공격자에게 N + M 공격력 증가
@@ -258,10 +272,18 @@ public class Main {
 			// 2. 공격대상자 선정
 			Cannon strongCannon = cannonSort.get(cannonSort.size() - 1);
 			// 공격
+//			System.out.print(weakCannon.idx + " -> " + strongCannon.idx + " : ");
 			weakCannon.attack(strongCannon);
 
 			// 3. 포탑이 부서진다.
 			// 4. 포탑 정비
+//			for (int i = 1; i <=N; i++) {
+//				for (int j = 1; j <= M; j++) {
+//					System.out.print(visited[i][j]?"■":"□");
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
 			for (int i = 1; i <= N; i++) {
 				for (int j = 1; j <= M; j++) {
 					// 죽은 포탑 제외
@@ -277,6 +299,7 @@ public class Main {
 						c.alive = false;
 						map[i][j] = 0;
 						cannonSort.remove(c);
+						idx--;
 					}
 
 					// 공격을 하지도, 받지도 않은 포탑이라면
@@ -287,7 +310,7 @@ public class Main {
 				}
 			}
 			//가장 약한 포탑은 공격기간이 늘지 않는다.
-			weakCannon.addPast(-1);
+			weakCannon.setPast(0);
 			
 //			System.out.println(k + "분 공격 이후");
 //			printIdxMap();
