@@ -145,10 +145,10 @@ public class Main {
 			return result - GAP + 1;
 		}
 		
-		void position() {
-			if(r<GAP) {
+		boolean position() {
+			if(r<=GAP) {
 				init();
-				return;
+				return false;
 			}
 			map[r][c] = 3; // 3은 중심을 나타냄
 			map[r-1][c] = 1;
@@ -171,6 +171,7 @@ public class Main {
 				map[r][c-1] = 2;
 				break;
 			}
+			return true;
 		}
 		
 		boolean down() {
@@ -261,9 +262,16 @@ public class Main {
 			
 			while(golam.down()) {
 			}
-			golam.position();
+			if(golam.position()) {
+				sum += golam.trip();
+//				int tmp = golam.trip();
+//				System.out.println(golam.r + " " + golam.c);
+//				System.out.println(tmp);
+//				sum += tmp;
+//				System.out.println(sum + "\n");
+			}
 //			printMap();
-			sum += golam.trip();
+			
 		}
 		
 		sb.append(sum);
@@ -274,7 +282,7 @@ public class Main {
 	
 	static void printMap() {
 		System.out.println("print Map");
-		for (int i = 0; i < map.length; i++) {
+		for (int i = GAP-1; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				System.out.print(map[i][j] + " ");
 			}
