@@ -257,12 +257,11 @@ public class Main {
 			
 			Golam golam = new Golam(c-1, d);
 			
-			golam.down();
-			golam.left();
-			golam.right();
-			golam.down();
-			golam.left();
-			golam.right();
+			for(int j=0; j<K; j++) {
+				golam.down();
+				golam.left();
+				golam.right();
+			}
 			
 			if(golam.position()) {
 				sum += golam.trip();
