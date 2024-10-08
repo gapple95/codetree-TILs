@@ -174,17 +174,14 @@ public class Main {
 			return true;
 		}
 		
-		boolean down() {
-			// 아래 한칸 이동이 가능하다면,
-			if((r!=R) && (r+2 < R) && (map[r+1][c-1] == 0 && map[r+2][c] == 0 && map[r+1][c+1] == 0)) {
-				r++; // 한 칸 내려가기
-				return true;
-			}
-			// 만약 못내려가는 상황이라면?
-			else {
-				left();
-				right();
-				return false;
+		void down() {
+			while(true) {
+				// 아래 한칸 이동이 가능하다면,
+				if((r!=R) && (r+2 < R) && (map[r+1][c-1] == 0 && map[r+2][c] == 0 && map[r+1][c+1] == 0)) {
+					r++; // 한 칸 내려가기
+				}
+				else
+					break;
 			}
 		}
 		
@@ -260,17 +257,22 @@ public class Main {
 			
 			Golam golam = new Golam(c-1, d);
 			
-			while(golam.down()) {
-			}
+			golam.down();
+			golam.left();
+			golam.right();
+			golam.down();
+			golam.left();
+			golam.right();
+			
 			if(golam.position()) {
 				sum += golam.trip();
+//				printMap();
 //				int tmp = golam.trip();
 //				System.out.println(golam.r + " " + golam.c);
 //				System.out.println(tmp);
 //				sum += tmp;
 //				System.out.println(sum + "\n");
 			}
-//			printMap();
 			
 		}
 		
