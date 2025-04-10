@@ -37,6 +37,7 @@ public class Main {
 				// 만약 메두사를 만난다면 공격
 				if (this.r == Sr && this.c == Sc) {
 					attack = true;
+                    alive = false;
 					return;
 				}
 
@@ -55,6 +56,7 @@ public class Main {
 
 				if (this.r == Sr && this.c == Sc) {
 					attack = true;
+                    alive = false;
 					return;
 				}
 
@@ -485,29 +487,15 @@ public class Main {
 
 			// 4. 답 입력
 			for (Worior w : Woriors) {
-				if (!w.alive)
-					continue;
-
 				move_cnt += w.move;
 				rock_cnt += w.rock ? 1 : 0;
 				attack_cnt += w.attack ? 1 : 0;
-
-				if (w.attack) {
-					// 공격에 성공한 경우, 메두사와 좌표가 겹쳐야 정상
-					if (w.r == Sr && w.c == Sc) {
-						w.alive = false;
-						worior_map[w.r][w.c] = 0;
-					}
-				}
 			}
 			sb.append(move_cnt).append(" ").append(rock_cnt).append(" ").append(attack_cnt).append("\n");
 //			System.out.println(move_cnt + " " + rock_cnt + " " + attack_cnt);
 			// 초기화
 			for (Worior w : Woriors) {
 //				System.out.println(w);
-				if (!w.alive)
-					continue;
-
 				w.rock = false;
 				w.move = 0;
 				w.attack = false;
